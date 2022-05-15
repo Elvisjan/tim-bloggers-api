@@ -36,7 +36,7 @@ let bloggers = [
     }
 ];
 exports.bloggersRoute.get('/', (req, res) => {
-    res.status(200).send(bloggers);
+    res.send(bloggers);
 });
 exports.bloggersRoute.post('/', (req, res) => {
     if (!req.body.name || req.body.name.length > 40) {
