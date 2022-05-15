@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from "express"
 
-export const bloggersRoute =Router({})
+export const bloggersRouter =Router({})
 
 let bloggers = [
   {
@@ -34,10 +34,10 @@ let bloggers = [
     "youtubeUrl": "gxcvxcfasdxzc"
   }
 ]
-bloggersRoute.get('/', (req: Request, res: Response) => {
-  res.send(bloggers)
+bloggersRouter.get('/', (req: Request, res: Response) => {
+  res.status(200).send(bloggers)
 })
-bloggersRoute.post('/', (req: Request, res: Response) => {
+bloggersRouter.post('/', (req: Request, res: Response) => {
   if(!req.body.name|| req.body.name.length > 40) {
     res.status(400).send({ errorsMessages: [{ message: "string", field: "name" }], resultCode: 1 })
   }
@@ -49,7 +49,7 @@ bloggersRoute.post('/', (req: Request, res: Response) => {
   bloggers.push(newVideo)
   res.status(201).send(newVideo)
 })
-bloggersRoute.get('/:bloggerId', (req: Request, res: Response) => {
+bloggersRouter.get('/:bloggerId', (req: Request, res: Response) => {
   const id = +req.params.bloggerId;
   const currentVideo = bloggers.find(v=>v.id===id)
   if(!currentVideo) {
@@ -57,7 +57,7 @@ bloggersRoute.get('/:bloggerId', (req: Request, res: Response) => {
   }
   res.send(currentVideo)
 })
-bloggersRoute.delete('/:id',(req: Request, res: Response)=>{
+bloggersRouter.delete('/:id',(req: Request, res: Response)=>{
   const id = +req.params.id;
   if(!bloggers.map(v=>v.id).includes(id)) {
     res.sendStatus(404)
@@ -65,7 +65,7 @@ bloggersRoute.delete('/:id',(req: Request, res: Response)=>{
   bloggers=bloggers.filter(v=>v.id!==id)
   res.sendStatus(204)
  })
- bloggersRoute.put('/:id',(req: Request, res: Response)=>{
+ bloggersRouter.put('/:id',(req: Request, res: Response)=>{
   const id = +req.params.id;
   const name = req.body.name
   if(!id ||!name|| name.length > 40) {

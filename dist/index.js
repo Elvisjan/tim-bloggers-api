@@ -11,7 +11,7 @@ const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-app.use('/bloggers', bloggers_router_1.bloggersRoute);
+app.use('/bloggers', bloggers_router_1.bloggersRouter);
 app.use('/posts', posts_router_1.postsRouter);
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

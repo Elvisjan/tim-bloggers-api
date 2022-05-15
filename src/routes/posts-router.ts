@@ -24,7 +24,7 @@ export const postsRouter = Router({})
 //     res.status(201).send(newPost)
 // })
 postsRouter.get('/', (req: Request, res: Response) => {
-  res.send(posts)
+  res.status(200).send(posts)
 })
 postsRouter.post('/', (req: Request, res: Response) => {
   if(!req.body.name|| req.body.name.length > 40) {

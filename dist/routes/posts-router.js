@@ -26,7 +26,7 @@ exports.postsRouter = (0, express_1.Router)({});
 //     res.status(201).send(newPost)
 // })
 exports.postsRouter.get('/', (req, res) => {
-    res.send(posts);
+    res.status(200).send(posts);
 });
 exports.postsRouter.post('/', (req, res) => {
     if (!req.body.name || req.body.name.length > 40) {

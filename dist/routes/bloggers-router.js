@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bloggersRoute = void 0;
+exports.bloggersRouter = void 0;
 const express_1 = require("express");
-exports.bloggersRoute = (0, express_1.Router)({});
+exports.bloggersRouter = (0, express_1.Router)({});
 let bloggers = [
     {
         "id": 0,
@@ -35,10 +35,10 @@ let bloggers = [
         "youtubeUrl": "gxcvxcfasdxzc"
     }
 ];
-exports.bloggersRoute.get('/', (req, res) => {
-    res.send(bloggers);
+exports.bloggersRouter.get('/', (req, res) => {
+    res.status(200).send(bloggers);
 });
-exports.bloggersRoute.post('/', (req, res) => {
+exports.bloggersRouter.post('/', (req, res) => {
     if (!req.body.name || req.body.name.length > 40) {
         res.status(400).send({ errorsMessages: [{ message: "string", field: "name" }], resultCode: 1 });
     }
@@ -50,7 +50,7 @@ exports.bloggersRoute.post('/', (req, res) => {
     bloggers.push(newVideo);
     res.status(201).send(newVideo);
 });
-exports.bloggersRoute.get('/:bloggerId', (req, res) => {
+exports.bloggersRouter.get('/:bloggerId', (req, res) => {
     const id = +req.params.bloggerId;
     const currentVideo = bloggers.find(v => v.id === id);
     if (!currentVideo) {
@@ -58,7 +58,7 @@ exports.bloggersRoute.get('/:bloggerId', (req, res) => {
     }
     res.send(currentVideo);
 });
-exports.bloggersRoute.delete('/:id', (req, res) => {
+exports.bloggersRouter.delete('/:id', (req, res) => {
     const id = +req.params.id;
     if (!bloggers.map(v => v.id).includes(id)) {
         res.sendStatus(404);
@@ -66,7 +66,7 @@ exports.bloggersRoute.delete('/:id', (req, res) => {
     bloggers = bloggers.filter(v => v.id !== id);
     res.sendStatus(204);
 });
-exports.bloggersRoute.put('/:id', (req, res) => {
+exports.bloggersRouter.put('/:id', (req, res) => {
     const id = +req.params.id;
     const name = req.body.name;
     if (!id || !name || name.length > 40) {
