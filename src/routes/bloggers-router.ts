@@ -30,12 +30,9 @@ let bloggers = [
   }
 ]
 bloggersRoute.get('/', (req: Request, res: Response) => {
-  res.send('Hellasdaso Glya!')
-})
-bloggersRoute.get('/bloggers/', (req: Request, res: Response) => {
   res.send(bloggers)
 })
-bloggersRoute.post('/bloggers', (req: Request, res: Response) => {
+bloggersRoute.post('/', (req: Request, res: Response) => {
   if(!req.body.title|| req.body.title.length > 40) {
     res.status(400).send({ errorsMessages: [{ message: "string", field: "title" }], resultCode: 1 })
   }
@@ -47,7 +44,7 @@ bloggersRoute.post('/bloggers', (req: Request, res: Response) => {
   bloggers.push(newVideo)
   res.status(201).send(newVideo)
 })
-bloggersRoute.get('/bloggers/:bloggerId', (req: Request, res: Response) => {
+bloggersRoute.get('/:bloggerId', (req: Request, res: Response) => {
   const id = +req.params.bloggerI;
   const currentVideo = bloggers.find(v=>v.id===id)
   if(!currentVideo) {
@@ -55,7 +52,7 @@ bloggersRoute.get('/bloggers/:bloggerId', (req: Request, res: Response) => {
   }
   res.send(currentVideo)
 })
-bloggersRoute.delete('/bloggers/:id',(req: Request, res: Response)=>{
+bloggersRoute.delete('/:id',(req: Request, res: Response)=>{
   const id = +req.params.id;
   if(!bloggers.map(v=>v.id).includes(id)) {
     res.sendStatus(404)
@@ -63,7 +60,7 @@ bloggersRoute.delete('/bloggers/:id',(req: Request, res: Response)=>{
   bloggers=bloggers.filter(v=>v.id!==id)
   res.sendStatus(204)
  })
- bloggersRoute.put('/bloggers/:id',(req: Request, res: Response)=>{
+ bloggersRoute.put('/:id',(req: Request, res: Response)=>{
   const id = +req.params.id;
   const title = req.body.title
   if(!id ||!title|| title.length > 40) {
