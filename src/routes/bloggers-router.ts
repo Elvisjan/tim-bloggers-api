@@ -68,7 +68,9 @@ bloggersRouter.delete('/:id',(req: Request, res: Response)=>{
  bloggersRouter.put('/:id',(req: Request, res: Response)=>{
   const id = +req.params.id;
   const name = req.body.name
-  if(!id ||!name|| name.length > 40) {
+  const youtubeUrl = req.body.youtubeUrl
+  const regex = new RegExp('^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$')
+  if(!id ||!name|| !youtubeUrl || name.length > 15 || youtubeUrl.length > 100 || !youtubeUrl.matches(regex)) {
     res.status(400).send({ errorsMessages: [{ message: "field incorrect", field: "name" }], resultCode: 1 })
   }
   if(!bloggers.map(v=>v.id).includes(id)) {
@@ -76,7 +78,7 @@ bloggersRouter.delete('/:id',(req: Request, res: Response)=>{
   }
   bloggers= bloggers.map((v)=>{
    if(v.id!==id) return v
-   return {...v,name}
+   return {...v,name,youtubeUrl}
  })
   res.status(204).send(bloggers) 
 })
