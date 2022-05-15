@@ -27,6 +27,11 @@ let bloggers = [
     "id": 4,
     "name": "HasNoImagination",
     "youtubeUrl": "gxcvxcfasdxzc"
+  },
+  {
+    "id": 4,
+    "name": "HasNoImagination",
+    "youtubeUrl": "gxcvxcfasdxzc"
   }
 ]
 bloggersRoute.get('/', (req: Request, res: Response) => {
