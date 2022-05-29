@@ -40,7 +40,10 @@ exports.bloggersRouter.get('/', (req, res) => {
 });
 exports.bloggersRouter.post('/', (req, res) => {
     if (!req.body.name || req.body.name.length > 40) {
-        res.status(400).send({ errorsMessages: [{ message: "string", field: "name" }], resultCode: 1 });
+        res.status(400).send({ errorsMessages: [{ message: "string", field: "name" }], resultCode: 0 });
+    }
+    else if (!req.body.youtubeUrl ) {
+        res.status(400).send({ errorsMessages: [{ message: "string", field: "youtubeUrl" }], resultCode: 0 });
     }
     const newVideo = {
         id: +(new Date()),
@@ -71,8 +74,8 @@ exports.bloggersRouter.put('/:id', (req, res) => {
     const name = req.body.name;
     const youtubeUrl = req.body.youtubeUrl;
     const regex = new RegExp('^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$');
-    if (!id || !name || !youtubeUrl || name.length > 15 || youtubeUrl.length > 100 || !youtubeUrl.matches(regex)) {
-        res.status(400).send({ errorsMessages: [{ message: "field incorrect", field: "name" }], resultCode: 1 });
+    if (!id || !name || !youtubeUrl || name.length > 15 || youtubeUrl.length > 100 || !(youtubeUrl === null || youtubeUrl === void 0 ? void 0 : youtubeUrl.match(regex))) {
+        res.status(400).send({ errorsMessages: [{ message: "field incorrect", field: "name" }], resultCode: 0 });
     }
     if (!bloggers.map(v => v.id).includes(id)) {
         res.sendStatus(404);

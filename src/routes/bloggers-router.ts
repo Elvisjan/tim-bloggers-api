@@ -70,7 +70,7 @@ bloggersRouter.delete('/:id',(req: Request, res: Response)=>{
   const name = req.body.name
   const youtubeUrl = req.body.youtubeUrl
   const regex = new RegExp('^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$')
-  if(!id ||!name|| !youtubeUrl || name.length > 15 || youtubeUrl.length > 100 || !youtubeUrl.matches(regex)) {
+  if(!id ||!name|| !youtubeUrl || name.length > 15 || youtubeUrl.length > 100 || !youtubeUrl?.matches(regex)) {
     res.status(400).send({ errorsMessages: [{ message: "field incorrect", field: "name" }], resultCode: 1 })
   }
   if(!bloggers.map(v=>v.id).includes(id)) {
