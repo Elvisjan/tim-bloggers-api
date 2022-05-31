@@ -65,20 +65,41 @@ bloggersRouter.delete('/:id',(req: Request, res: Response)=>{
   bloggers=bloggers.filter(v=>v.id!==id)
   res.sendStatus(204)
  })
- bloggersRouter.put('/:id',(req: Request, res: Response)=>{
-  const id = +req.params.id;
-  const name = req.body.name
-  const youtubeUrl = req.body.youtubeUrl
-  const regex = new RegExp('^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$')
-  if(!id ||!name|| !youtubeUrl || name.length > 15 || youtubeUrl.length > 100 || !youtubeUrl?.matches(regex)) {
-    res.status(400).send({ errorsMessages: [{ message: "field incorrect", field: "name" }], resultCode: 1 })
+ bloggersRouter.put('/:id',(req: Request, res: Response) => {
+  const id = +req.params.id
+  const newName = req.body.name
+  const newYoutubeUrl = req.body.youtubeUrl
+  const blogger = bloggers.find(v=>v.id === id)
+  if(blogger && newName.length <= 40 ){
+    blogger.name = newName
+    blogger.youtubeUrl = newYoutubeUrl
+      res.status(200).send(blogger)
+      return
   }
-  if(!bloggers.map(v=>v.id).includes(id)) {
-    res.sendStatus(404)
+  if(blogger && newName.length > 40 ){
+      res.status(400).send({
+          "errorsMessages": [
+              {
+                  "message": "string",
+                  "field": "string"
+              }
+          ],
+          "resultCode": 0
+      })
+      return
   }
-  bloggers= bloggers.map((v)=>{
-   if(v.id!==id) return v
-   return {...v,name,youtubeUrl}
- })
-  res.status(204).send(bloggers) 
+  if(!blogger){
+      res.status(204).send('No Content')
+      return;
+  }
+  res.status(404).send({
+      "errorsMessages": [
+          {
+              "message": "string",
+              "field": "string"
+          }
+      ],
+      "resultCode": 0
+  })
+  return;
 })
