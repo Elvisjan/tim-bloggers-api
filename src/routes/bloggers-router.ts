@@ -41,13 +41,13 @@ bloggersRouter.post('/', (req: Request, res: Response) => {
   if(!req.body.name|| req.body.name.length > 40) {
     res.status(400).send({ errorsMessages: [{ message: "string", field: "name" }], resultCode: 1 })
   }
-  const newVideo = {
+  const newBlogger = {
       id: +(new Date()),
       name: req.body.name,
       youtubeUrl: 'it-incubator.eu'
   }
-  bloggers.push(newVideo)
-  res.status(201).send(newVideo)
+  bloggers.push(newBlogger)
+  res.status(201).send(newBlogger)
 })
 bloggersRouter.get('/:bloggerId', (req: Request, res: Response) => {
   const id = +req.params.bloggerId;
@@ -73,7 +73,7 @@ bloggersRouter.delete('/:id',(req: Request, res: Response)=>{
   if(blogger && newName.length <= 40 ){
     blogger.name = newName
     blogger.youtubeUrl = newYoutubeUrl
-      res.status(200).send(blogger)
+      res.status(204).send(blogger)
       return
   }
   if(blogger && newName.length > 40 ){
