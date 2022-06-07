@@ -33,15 +33,14 @@ postsRouter.post('/', (req: Request, res: Response) => {
 postsRouter.get('/:bloggerId', (req: Request, res: Response) => {
   const id = +req.params.bloggerId;
   const currentVideo = posts.find(v=>v.id===id)
-  if(!id)
-  if(!currentVideo) {
+  if(!id || !currentVideo) {
     res.sendStatus(404)
   }
   res.send(currentVideo)
 })
 postsRouter.delete('/:id',(req: Request, res: Response)=>{
   const id = +req.params.id;
-  if(!posts.map(v=>v.id).includes(id)) {
+  if(!id || !posts.map(v=>v.id).includes(id)) {
     res.sendStatus(404)
   }
   posts=posts.filter(v=>v.id!==id)
@@ -49,8 +48,7 @@ postsRouter.delete('/:id',(req: Request, res: Response)=>{
  })
  postsRouter.put('/:id',(req: Request, res: Response)=>{
   const id = +req.params.id;
-  const name = req.body.name
-  if(!id ||!name|| name.length > 40) {
+  if(!id) {
     res.status(400).send({ errorsMessages: [{ message: "field incorrect", field: "name" }], resultCode: 1 })
   }
   if(!posts.map(v=>v.id).includes(id)) {
@@ -58,7 +56,7 @@ postsRouter.delete('/:id',(req: Request, res: Response)=>{
   }
   posts= posts.map((v)=>{
    if(v.id!==id) return v
-   return {...v,name}
+   return {...v,...req.body}
  })
   res.status(204).send(posts) 
 })
