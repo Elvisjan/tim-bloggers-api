@@ -52,6 +52,9 @@ bloggersRouter.post('/', (req: Request, res: Response) => {
 bloggersRouter.get('/:bloggerId', (req: Request, res: Response) => {
   const id = +req.params.bloggerId;
   const currentVideo = bloggers.find(v=>v.id===id)
+  if(!id) {
+    res.sendStatus(404)
+  }
   if(!currentVideo) {
     res.sendStatus(404)
   }
@@ -59,6 +62,9 @@ bloggersRouter.get('/:bloggerId', (req: Request, res: Response) => {
 })
 bloggersRouter.delete('/:id',(req: Request, res: Response)=>{
   const id = +req.params.id;
+  if(!id) {
+    res.sendStatus(404)
+  }
   if(!bloggers.map(v=>v.id).includes(id)) {
     res.sendStatus(404)
   }
@@ -70,6 +76,9 @@ bloggersRouter.delete('/:id',(req: Request, res: Response)=>{
   const newName = req.body.name
   const newYoutubeUrl = req.body.youtubeUrl
   const blogger = bloggers.find(v=>v.id === id)
+  if(!id) {
+    res.sendStatus(404)
+  }
   if(blogger && newName.length <= 40 ){
     blogger.name = newName
     blogger.youtubeUrl = newYoutubeUrl
@@ -103,3 +112,7 @@ bloggersRouter.delete('/:id',(req: Request, res: Response)=>{
   })
   return;
 })
+bloggersRouter.delete('/',(req: Request, res: Response)=>{
+  bloggers = []
+  res.sendStatus(204)
+ })

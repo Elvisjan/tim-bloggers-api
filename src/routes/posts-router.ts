@@ -60,3 +60,7 @@ postsRouter.delete('/:id',(req: Request, res: Response)=>{
  })
   res.status(204).send(posts) 
 })
+postsRouter.delete('/',(req: Request, res: Response)=>{
+  posts = []
+  res.sendStatus(204)
+ })
