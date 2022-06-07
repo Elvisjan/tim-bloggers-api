@@ -97,6 +97,9 @@ bloggersRouter.delete('/:id',(req: Request, res: Response)=>{
       })
       return
   }
+  if(!bloggers.map(v=>v.id).includes(id)) {
+    res.sendStatus(404)
+  }
   if(!blogger){
       res.status(204).send('No Content')
       return;
