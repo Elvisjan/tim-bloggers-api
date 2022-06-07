@@ -12,34 +12,20 @@ let posts = [
   }
 ]
 export const postsRouter = Router({})
-// postsRouter.get('/', (req: Request, res: Response)=> {
-//   const posts = postsRepository.getPosts()
-//   res.send(posts)
-// })
-// postsRouter.post('/',(req: Request, res: Response)=> {
-//     if(!req.body.name|| req.body.name.length > 40) {
-//       res.status(400).send({ errorsMessages: [{ message: "string", field: "name" }], resultCode: 1 })
-//     }
-//     const newPost = postsRepository.createPost(req.body.name,req.body.name,req.body.name,req.body.name)
-//     res.status(201).send(newPost)
-// })
+
 postsRouter.get('/', (req: Request, res: Response) => {
   res.status(200).send(posts)
 })
 postsRouter.post('/', (req: Request, res: Response) => {
-  if(!req.body.name|| req.body.name.length > 40) {
-    res.status(400).send({ errorsMessages: [{ message: "string", field: "name" }], resultCode: 1 })
-  }
-  const blogger = bloggerRepository.findBlogger(req.body.bloggerId)
-  const {title,content,shortDescription} = req.body
-  if(!blogger) return false
+  // if(!req.body.name|| req.body.name.length > 40) {
+  //   res.status(400).send({ errorsMessages: [{ message: "string", field: "name" }], resultCode: 1 })
+  // }
+  const {title,content,shortDescription,bloggerId} = req.body
+// {"content":"new post content","shortDescription":"description","title":"post title","bloggerId":"1654612489510"}
   const newPost = {
     id: +(new Date()),
-    title,
-    content,
-    shortDescription,
-    bloggerId: blogger.id,
-    bloggerName: ''
+    ...req.body,
+    bloggerName: 'Hallo'
   }
   posts.push(newPost)
   res.status(201).send(newPost)
@@ -47,6 +33,7 @@ postsRouter.post('/', (req: Request, res: Response) => {
 postsRouter.get('/:bloggerId', (req: Request, res: Response) => {
   const id = +req.params.bloggerId;
   const currentVideo = posts.find(v=>v.id===id)
+  if(!id)
   if(!currentVideo) {
     res.sendStatus(404)
   }
