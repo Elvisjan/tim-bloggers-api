@@ -39,7 +39,7 @@ postsRouter.post('/', (req: Request, res: Response) => {
   const errors: Error[] = []
   const {title,content,shortDescription,bloggerId} = req.body
   if(!title || !title.trim()|| title.length >30) errorHandler(errors, 'title is not valid','title')
-  if(!content||content.trim() || content.length> 1000) errorHandler(errors, 'content is not valid','content')
+  if(!content||!content.trim() || content.length> 1000) errorHandler(errors, 'content is not valid','content')
   if(!shortDescription|| !shortDescription.trim()|| shortDescription.length> 100) errorHandler(errors, 'shortDescription is not valid','shortDescription')
   if(errors.length > 0) sendError(res, errors, 400)
   const newPost = {
@@ -70,7 +70,7 @@ postsRouter.delete('/:id',(req: Request, res: Response)=>{
   const errors: Error[] = []
   const {title,content,shortDescription,bloggerId} = req.body
   if(!title || !title.trim()|| title.length >30) errorHandler(errors, 'title is not valid','title')
-  if(!content||content.trim() || content.length> 1000) errorHandler(errors, 'content is not valid','content')
+  if(!content||!content.trim() || content.length> 1000) errorHandler(errors, 'content is not valid','content')
   if(!shortDescription|| !shortDescription.trim()|| shortDescription.length> 100) errorHandler(errors, 'shortDescription is not valid','shortDescription')
   if(errors.length > 0) sendError(res, errors, 400)
   const id = +req.params.id;
