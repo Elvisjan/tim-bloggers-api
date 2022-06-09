@@ -2,7 +2,7 @@ import express, { Request, Response, Router } from "express"
 
 export const bloggersRouter = Router({})
 
-let bloggers = [
+export let bloggers = [
   {
     "id": 0,
     "name": "First",

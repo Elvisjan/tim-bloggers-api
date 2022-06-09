@@ -1,6 +1,7 @@
 import { Request,Response, Router } from "express"
 import { bloggerRepository } from "../repositories/bloggers-repository"
 import { postsRepository } from "../repositories/posts-repository"
+import { bloggers } from "./bloggers-router"
 let posts = [
   {
     "id": 0,
@@ -41,6 +42,11 @@ postsRouter.post('/', (req: Request, res: Response) => {
   if(!title || !title.trim()|| title.length >30) errorHandler(errors, 'title is not valid','title')
   if(!content||!content.trim() || content.length> 1000) errorHandler(errors, 'content is not valid','content')
   if(!shortDescription|| !shortDescription.trim()|| shortDescription.length> 100) errorHandler(errors, 'shortDescription is not valid','shortDescription')
+  if(!bloggerId|| !bloggerId.trim()) errorHandler(errors, 'shortDescription is not valid','shortDescription')
+  const blogger = bloggers.find(bl => bl.id === bloggerId)
+  if (!blogger) {
+    errorHandler(errors, "Error Type: Your should have blogger Id", "bloggerId")
+  }
   if(errors.length > 0) sendError(res, errors, 400)
   const newPost = {
     id: +(new Date()),
