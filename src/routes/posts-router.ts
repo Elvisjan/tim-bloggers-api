@@ -41,7 +41,7 @@ postsRouter.post('/', (req: Request, res: Response) => {
   if(!title || title.length >30) errorHandler(errors, 'title is not valid','title')
   if(!content || content.length> 1000) errorHandler(errors, 'content is not valid','content')
   if(!shortDescription|| shortDescription.length> 100) errorHandler(errors, 'shortDescription is not valid','shortDescription')
-  if(errors.length > 0) sendError(res, errors, 404)
+  if(errors.length > 0) sendError(res, errors, 400)
   const newPost = {
     id: +(new Date()),
     ...req.body,
@@ -72,7 +72,7 @@ postsRouter.delete('/:id',(req: Request, res: Response)=>{
   if(!title || title.length >30) errorHandler(errors, 'title is not valid','title')
   if(!content || content.length> 1000) errorHandler(errors, 'content is not valid','content')
   if(!shortDescription|| shortDescription.length> 100) errorHandler(errors, 'shortDescription is not valid','shortDescription')
-  if(errors.length > 0) sendError(res, errors, 404)
+  if(errors.length > 0) sendError(res, errors, 400)
   const id = +req.params.id;
   if(!id) {
     res.status(400).send({ errorsMessages: [{ message: "field incorrect", field: "name" }], resultCode: 1 })
