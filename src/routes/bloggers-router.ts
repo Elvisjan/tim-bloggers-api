@@ -60,10 +60,10 @@ bloggersRouter.post('/', (req: Request, res: Response) => {
   const uriRegexp = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?")
   const errors: Error[] = []
   const {body} = req
-  if (!body.name||!body.trim() || body.name.length > 15) {
+  if (!body.name||!body.name.trim() || body.name.length > 15) {
     errorHandler(errors,'name is not valid','name')
   }
-  if(!uriRegexp.test(body.youtubeUrl) || !body.youtubeUrl.trim()|| !body.youtubeUrl || body.youtubeUrl.length > 100 ) errorHandler(errors, 'uri is not valid','youtubeUrl') 
+  if(!uriRegexp.test(body.youtubeUrl) || !body.youtubeUrl || !body.youtubeUrl.trim()|| body.youtubeUrl.length > 100 ) errorHandler(errors, 'uri is not valid','youtubeUrl') 
   if(errors.length > 0) sendError(res, errors, 400)
   else {
     const newBlogger = {
@@ -101,10 +101,10 @@ bloggersRouter.put('/:id', (req: Request, res: Response) => {
   const uriRegexp = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?")
   const errors: Error[] = []
   const {body} = req
-  if (!body.name ||!body.trim()|| body.name.length > 15) {
+  if (!body.name ||!body.name.trim()|| body.name.length > 15) {
     errorHandler(errors,'name is not valid','name')
   }
-  if(!uriRegexp.test(body.youtubeUrl) || !body.youtubeUrl.trim()|| !body.youtubeUrl || body.youtubeUrl.length > 100 ) errorHandler(errors, 'uri is not valid','youtubeUrl') 
+  if(!uriRegexp.test(body.youtubeUrl) || !body.youtubeUrl || !body.youtubeUrl.trim()|| body.youtubeUrl.length > 100 ) errorHandler(errors, 'uri is not valid','youtubeUrl') 
   if(errors.length > 0) sendError(res, errors, 400)
   const id = +req.params.id
   const newName = req.body.name
