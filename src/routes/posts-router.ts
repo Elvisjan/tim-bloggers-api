@@ -11,17 +11,37 @@ let posts = [
     "bloggerName": "string"
   }
 ]
+type Error = {
+  message: string
+  field: string
+}
+const errorHandler = ( errors: Error[],message: string, field: string) => {
+  const error: Error = {
+      message,
+      field
+  }
+  errors.push(error)
+}
+const sendError = (res: Response, errorsMessages: Error[], status: number, withResultCode  = false) => {
+  const defaultPayload = {
+    errorsMessages,
+  }
+  const payloadWithCode = {...defaultPayload,
+  resultCode:1}
+  res.status(status).send(withResultCode ? payloadWithCode: defaultPayload)
+}
 export const postsRouter = Router({})
 
 postsRouter.get('/', (req: Request, res: Response) => {
   res.status(200).send(posts)
 })
 postsRouter.post('/', (req: Request, res: Response) => {
-  // if(!req.body.name|| req.body.name.length > 40) {
-  //   res.status(400).send({ errorsMessages: [{ message: "string", field: "name" }], resultCode: 1 })
-  // }
+  const errors: Error[] = []
   const {title,content,shortDescription,bloggerId} = req.body
-// {"content":"new post content","shortDescription":"description","title":"post title","bloggerId":"1654612489510"}
+  if(!title || title.length >30) errorHandler(errors, 'title is not valid','title')
+  if(!content || content.length> 1000) errorHandler(errors, 'content is not valid','content')
+  if(!shortDescription|| shortDescription.length> 100) errorHandler(errors, 'shortDescription is not valid','shortDescription')
+  if(errors.length > 0) sendError(res, errors, 404)
   const newPost = {
     id: +(new Date()),
     ...req.body,
@@ -47,6 +67,12 @@ postsRouter.delete('/:id',(req: Request, res: Response)=>{
   res.sendStatus(204)
  })
  postsRouter.put('/:id',(req: Request, res: Response)=>{
+  const errors: Error[] = []
+  const {title,content,shortDescription,bloggerId} = req.body
+  if(!title || title.length >30) errorHandler(errors, 'title is not valid','title')
+  if(!content || content.length> 1000) errorHandler(errors, 'content is not valid','content')
+  if(!shortDescription|| shortDescription.length> 100) errorHandler(errors, 'shortDescription is not valid','shortDescription')
+  if(errors.length > 0) sendError(res, errors, 404)
   const id = +req.params.id;
   if(!id) {
     res.status(400).send({ errorsMessages: [{ message: "field incorrect", field: "name" }], resultCode: 1 })

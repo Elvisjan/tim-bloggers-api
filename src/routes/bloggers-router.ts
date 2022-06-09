@@ -45,12 +45,13 @@ const errorHandler = ( errors: Error[],message: string, field: string) => {
   }
   errors.push(error)
 }
-const sendError = (res: Response, errors: Error[], status: number) => {
-  const payload = {
-    errors,
-    resultCode: 1
+const sendError = (res: Response, errorsMessages: Error[], status: number, withResultCode  = false) => {
+  const defaultPayload = {
+    errorsMessages,
   }
-  res.status(status).send(payload)
+  const payloadWithCode = {...defaultPayload,
+  resultCode:1}
+  res.status(status).send(withResultCode ? payloadWithCode: defaultPayload)
 }
 bloggersRouter.get('/', (req: Request, res: Response) => {
   res.status(200).send(bloggers)
