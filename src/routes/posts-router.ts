@@ -43,7 +43,8 @@ postsRouter.post('/', (req: Request, res: Response) => {
   if(!content||!content.trim() || content.length> 1000) errorHandler(errors, 'content is not valid','content')
   if(!shortDescription|| !shortDescription.trim()|| shortDescription.length> 100) errorHandler(errors, 'shortDescription is not valid','shortDescription')
   if(!bloggerId|| !bloggerId.trim()) errorHandler(errors, 'shortDescription is not valid','shortDescription')
-  const blogger = bloggers.find(bl => bl.id === bloggerId)
+  const blogger = bloggers?.find(bl => bl.id === bloggerId)
+  console.log(blogger, bloggers)
   if (!blogger) {
     errorHandler(errors, "Error Type: Your should have blogger Id", "bloggerId")
   }
