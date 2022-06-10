@@ -44,7 +44,6 @@ postsRouter.post('/', (req: Request, res: Response) => {
   if(!shortDescription|| !shortDescription.trim()|| shortDescription.length> 100) errorHandler(errors, 'shortDescription is not valid','shortDescription')
   if(!bloggerId) errorHandler(errors, 'shortDescription is not valid','shortDescription')
   const blogger = bloggers?.find(bl => bl.id === bloggerId)
-  console.log(bloggers)
   if (!blogger) {
     errorHandler(errors, "Error Type: Your should have blogger Id", "bloggerId")
   }
@@ -79,6 +78,11 @@ postsRouter.delete('/:id',(req: Request, res: Response)=>{
   if(!title || !title.trim()|| title.length >30) errorHandler(errors, 'title is not valid','title')
   if(!content||!content.trim() || content.length> 1000) errorHandler(errors, 'content is not valid','content')
   if(!shortDescription|| !shortDescription.trim()|| shortDescription.length> 100) errorHandler(errors, 'shortDescription is not valid','shortDescription')
+  if(!bloggerId) errorHandler(errors, 'shortDescription is not valid','shortDescription')
+  const blogger = bloggers?.find(bl => bl.id === bloggerId)
+  if (!blogger) {
+    errorHandler(errors, "Error Type: Your should have blogger Id", "bloggerId")
+  }
   if(errors.length > 0) sendError(res, errors, 400)
   const id = +req.params.id;
   if(!id) {
