@@ -1,7 +1,7 @@
 import { Request,Response, Router } from "express"
 import { bloggerRepository } from "../repositories/bloggers-repository"
 import { postsRepository } from "../repositories/posts-repository"
-import { bloggers } from "./bloggers-router"
+// import { bloggers } from "./bloggers-router"
 let posts = [
   {
     "id": 0,
@@ -44,7 +44,7 @@ postsRouter.post('/', (req: Request, res: Response) => {
   if(!shortDescription|| !shortDescription.trim()|| shortDescription.length> 100) errorHandler(errors, 'shortDescription is not valid','shortDescription')
   if(!bloggerId|| !bloggerId.trim()) errorHandler(errors, 'shortDescription is not valid','shortDescription')
   // const blogger = bloggers?.find(bl => bl.id === bloggerId)
-  console.log(bloggers)
+  // console.log(bloggers)
   // if (!blogger) {
   //   errorHandler(errors, "Error Type: Your should have blogger Id", "bloggerId")
   // }
