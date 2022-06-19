@@ -1,4 +1,5 @@
 import { Request,Response, Router } from "express"
+import { authMiddleware } from "../middlewares"
 import { bloggerRepository } from "../repositories/bloggers-repository"
 import { postsRepository } from "../repositories/posts-repository"
 import { bloggers } from "./bloggers-router"
@@ -64,7 +65,7 @@ postsRouter.get('/:bloggerId', (req: Request, res: Response) => {
   }
   res.send(currentVideo)
 })
-postsRouter.delete('/:id',(req: Request, res: Response)=>{
+postsRouter.delete('/:id',authMiddleware,(req: Request, res: Response)=>{
   const id = +req.params.id;
   if(!id || !posts.map(v=>v.id).includes(id)) {
     res.sendStatus(404)
