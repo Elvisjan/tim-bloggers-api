@@ -5,7 +5,8 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
   try {
     if (req.headers.authorization) {
       const [type, credentials] = req.headers.authorization.split(" ")
-      if (type === "Basic" && (base64.decode(credentials) === "admin:qwerty")) {
+      const decodedCredentials = base64.decode(credentials) ?? false
+      if (type === "Basic" && decodedCredentials && (decodedCredentials === "admin:qwerty")) {
         next()
       }
       else {
@@ -17,6 +18,6 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     }
   }
   catch (err) {
-    res.status(500).send(err)
+    res.status(401).send(err)
   }
 }
