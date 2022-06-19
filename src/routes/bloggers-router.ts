@@ -1,4 +1,5 @@
 import express, { Request, Response, Router } from "express"
+import { authMiddleware } from "../middlewares"
 
 export const bloggersRouter = Router({})
 
@@ -56,7 +57,7 @@ const sendError = (res: Response, errorsMessages: Error[], status: number, withR
 bloggersRouter.get('/', (req: Request, res: Response) => {
   res.status(200).send(bloggers)
 })
-bloggersRouter.post('/', (req: Request, res: Response) => {
+bloggersRouter.post('/',authMiddleware, (req: Request, res: Response) => {
   const uriRegexp = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?")
   const errors: Error[] = []
   const {body} = req
@@ -86,7 +87,7 @@ bloggersRouter.get('/:bloggerId', (req: Request, res: Response) => {
   }
   res.send(currentVideo)
 })
-bloggersRouter.delete('/:id', (req: Request, res: Response) => {
+bloggersRouter.delete('/:id',authMiddleware, (req: Request, res: Response) => {
   const id = +req.params.id;
   if (!id) {
     res.sendStatus(404)
@@ -97,7 +98,7 @@ bloggersRouter.delete('/:id', (req: Request, res: Response) => {
   bloggers = bloggers.filter(v => v.id !== id)
   res.sendStatus(204)
 })
-bloggersRouter.put('/:id', (req: Request, res: Response) => {
+bloggersRouter.put('/:id',authMiddleware, (req: Request, res: Response) => {
   const uriRegexp = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?")
   const errors: Error[] = []
   const {body} = req
@@ -149,7 +150,7 @@ bloggersRouter.put('/:id', (req: Request, res: Response) => {
   })
   return;
 })
-bloggersRouter.delete('/', (req: Request, res: Response) => {
+bloggersRouter.delete('/',authMiddleware, (req: Request, res: Response) => {
   bloggers = []
   res.sendStatus(204)
 })

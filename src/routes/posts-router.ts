@@ -37,7 +37,7 @@ export const postsRouter = Router({})
 postsRouter.get('/', (req: Request, res: Response) => {
   res.status(200).send(posts)
 })
-postsRouter.post('/', (req: Request, res: Response) => {
+postsRouter.post('/',authMiddleware, (req: Request, res: Response) => {
   const errors: Error[] = []
   const {title,content,shortDescription,bloggerId} = req.body
   if(!title || !title.trim()|| title.length >30) errorHandler(errors, 'title is not valid','title')
@@ -73,7 +73,7 @@ postsRouter.delete('/:id',authMiddleware,(req: Request, res: Response)=>{
   posts=posts.filter(v=>v.id!==id)
   res.sendStatus(204)
  })
- postsRouter.put('/:id',(req: Request, res: Response)=>{
+ postsRouter.put('/:id',authMiddleware,(req: Request, res: Response)=>{
   const errors: Error[] = []
   const {title,content,shortDescription,bloggerId} = req.body
   if(!title || !title.trim()|| title.length >30) errorHandler(errors, 'title is not valid','title')
@@ -98,7 +98,7 @@ postsRouter.delete('/:id',authMiddleware,(req: Request, res: Response)=>{
  })
   res.status(204).send(posts) 
 })
-postsRouter.delete('/',(req: Request, res: Response)=>{
+postsRouter.delete('/',authMiddleware,(req: Request, res: Response)=>{
   posts = []
   res.sendStatus(204)
  })
